@@ -39,6 +39,12 @@
         "sessionExpiry": ""
     },
     {
+        "id": "8badca3bd1764b93",
+        "type": "sqlitedb",
+        "db": "/home/ubuntu/.node-red/data.db",
+        "mode": "RWC"
+    },
+    {
         "id": "8bd5432c21d4df4f",
         "type": "mqtt in",
         "z": "495974f5c298f80c",
@@ -55,7 +61,7 @@
         "y": 240,
         "wires": [
             [
-                "32022632d54e26a3"
+                "f820e4f96cf33344"
             ]
         ]
     },
@@ -72,8 +78,73 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 520,
+        "x": 800,
         "y": 240,
         "wires": []
+    },
+    {
+        "id": "f820e4f96cf33344",
+        "type": "function",
+        "z": "495974f5c298f80c",
+        "name": "prepare_sql",
+        "func": "let payload = msg.payload;\n\nlet topic = msg.topic;\nlet temperature = payload.temperature || 0;\nlet humidity = payload.humidity || 0;\nlet pressure = payload.pressure || 0;\n\nmsg.topic = `INSERT INTO measurements (topic, temperature, humidity, pressure)\nVALUES ('${topic}', ${temperature}, ${humidity}, ${pressure});`;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 240,
+        "wires": [
+            [
+                "715a15d92621d04d"
+            ]
+        ]
+    },
+    {
+        "id": "715a15d92621d04d",
+        "type": "sqlite",
+        "z": "495974f5c298f80c",
+        "mydb": "8badca3bd1764b93",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "database",
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "32022632d54e26a3"
+            ]
+        ]
+    },
+    {
+        "id": "8cbf78f100478939",
+        "type": "inject",
+        "z": "495974f5c298f80c",
+        "name": "Test sensor 1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "test/sensor1",
+        "payload": "{\"temperature\":25.3,\"humidity\":60,\"pressure\":1012}",
+        "payloadType": "json",
+        "x": 150,
+        "y": 320,
+        "wires": [
+            [
+                "f820e4f96cf33344"
+            ]
+        ]
     }
 ]
