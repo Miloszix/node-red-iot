@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "cd6acdc77f4ee6db",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7ba9a8144ff9121b",
         "type": "mqtt-broker",
         "name": "",
@@ -146,5 +154,79 @@
                 "f820e4f96cf33344"
             ]
         ]
+    },
+    {
+        "id": "c1480336aa8819be",
+        "type": "mqtt in",
+        "z": "cd6acdc77f4ee6db",
+        "name": " New sensor MQTT",
+        "topic": "iot/+/found",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "7ba9a8144ff9121b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 160,
+        "wires": [
+            [
+                "0f590e0cf2ee1729"
+            ]
+        ]
+    },
+    {
+        "id": "0f590e0cf2ee1729",
+        "type": "function",
+        "z": "cd6acdc77f4ee6db",
+        "name": "function 1",
+        "func": "// msg.payload = {sensor_mac: \"A4:C1:38:6F:12:8D\", rssi: -67}\nlet gateway = msg.topic.split(\"/\")[1]; // wyciąga gateway_id z topicu\nlet mac = msg.payload.sensor_mac;\n\nmsg.topic = `\nINSERT OR IGNORE INTO sensors (gateway_id, sensor_mac, status)\nVALUES ('${gateway}', '${mac}', 'pending');\n`;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 160,
+        "wires": [
+            [
+                "01ab8b03a5366f22"
+            ]
+        ]
+    },
+    {
+        "id": "01ab8b03a5366f22",
+        "type": "sqlite",
+        "z": "cd6acdc77f4ee6db",
+        "mydb": "8badca3bd1764b93",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Sensor",
+        "x": 760,
+        "y": 160,
+        "wires": [
+            [
+                "9a1f28023ceb1222"
+            ]
+        ]
+    },
+    {
+        "id": "9a1f28023ceb1222",
+        "type": "debug",
+        "z": "cd6acdc77f4ee6db",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 160,
+        "wires": []
     }
 ]
