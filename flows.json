@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "91795fdf14f0f481",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7ba9a8144ff9121b",
         "type": "mqtt-broker",
         "name": "",
@@ -257,5 +265,89 @@
                 "0f590e0cf2ee1729"
             ]
         ]
+    },
+    {
+        "id": "6a3d21693a134156",
+        "type": "http in",
+        "z": "91795fdf14f0f481",
+        "name": "Accept",
+        "url": "/accept_sensor",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 390,
+        "y": 180,
+        "wires": [
+            [
+                "d836e79110414ac5"
+            ]
+        ]
+    },
+    {
+        "id": "d836e79110414ac5",
+        "type": "function",
+        "z": "91795fdf14f0f481",
+        "name": "function 2",
+        "func": "\nlet p = msg.payload; \nlet mac = p.sensor_mac;\nlet name = p.name || \"Unnamed\";\nlet gateway_id = p.gateway_id;\n\n// Zmieniamy status w bazie\nmsg.topic = `\nUPDATE sensors\nSET name='${name}', status='accepted'\nWHERE sensor_mac='${mac}';\n`;\n\n// Przesyłamy info do gatewaya\nmsg.payload = {\n    sensor_mac: mac,\n    name: name\n};\nmsg.gateway_id = gateway_id;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "b79a8497319dfdb4"
+            ]
+        ]
+    },
+    {
+        "id": "b79a8497319dfdb4",
+        "type": "sqlite",
+        "z": "91795fdf14f0f481",
+        "mydb": "8badca3bd1764b93",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 890,
+        "y": 200,
+        "wires": [
+            [
+                "c56a02a7b098f9b5",
+                "e3c577af570f1b77"
+            ]
+        ]
+    },
+    {
+        "id": "c56a02a7b098f9b5",
+        "type": "mqtt out",
+        "z": "91795fdf14f0f481",
+        "name": "",
+        "topic": "iot/${gateway_id}/accepted",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7ba9a8144ff9121b",
+        "x": 1220,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "e3c577af570f1b77",
+        "type": "http response",
+        "z": "91795fdf14f0f481",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1200,
+        "y": 280,
+        "wires": []
     }
 ]
