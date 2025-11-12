@@ -94,7 +94,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 800,
+        "x": 940,
         "y": 240,
         "wires": []
     },
@@ -125,8 +125,8 @@
         "mydb": "8badca3bd1764b93",
         "sqlquery": "msg.topic",
         "sql": "",
-        "name": "database",
-        "x": 640,
+        "name": "insert mesurment",
+        "x": 670,
         "y": 240,
         "wires": [
             [
