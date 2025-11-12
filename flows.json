@@ -2,7 +2,7 @@
     {
         "id": "495974f5c298f80c",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Post data",
         "disabled": false,
         "info": "",
         "env": []
@@ -10,7 +10,7 @@
     {
         "id": "cd6acdc77f4ee6db",
         "type": "tab",
-        "label": "Flow 2",
+        "label": "Post new sensor",
         "disabled": false,
         "info": "",
         "env": []
@@ -18,7 +18,7 @@
     {
         "id": "91795fdf14f0f481",
         "type": "tab",
-        "label": "Flow 3",
+        "label": "accept new sensor",
         "disabled": false,
         "info": "",
         "env": []
