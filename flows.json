@@ -24,6 +24,14 @@
         "env": []
     },
     {
+        "id": "bd7dbf89c0252fa8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7ba9a8144ff9121b",
         "type": "mqtt-broker",
         "name": "",
@@ -349,5 +357,52 @@
         "x": 1200,
         "y": 280,
         "wires": []
+    },
+    {
+        "id": "a9b1757018513b6e",
+        "type": "function",
+        "z": "bd7dbf89c0252fa8",
+        "name": "function 3",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6f5697bddc5e3a00",
+        "type": "inject",
+        "z": "bd7dbf89c0252fa8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 340,
+        "wires": [
+            [
+                "a9b1757018513b6e"
+            ]
+        ]
     }
 ]
