@@ -40,6 +40,14 @@
         "env": []
     },
     {
+        "id": "7ab793bdce786f28",
+        "type": "tab",
+        "label": "measurments",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7ba9a8144ff9121b",
         "type": "mqtt-broker",
         "name": "",
