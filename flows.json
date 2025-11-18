@@ -523,5 +523,70 @@
         "x": 1050,
         "y": 140,
         "wires": []
+    },
+    {
+        "id": "a6f75b5a32999164",
+        "type": "http in",
+        "z": "7ab793bdce786f28",
+        "name": "",
+        "url": "/measurments",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [
+                "6c3ae2b35d413308"
+            ]
+        ]
+    },
+    {
+        "id": "6c3ae2b35d413308",
+        "type": "function",
+        "z": "7ab793bdce786f28",
+        "name": "function 5",
+        "func": "let mac = msg.req.query.sensor_mac;\n\nif (!mac) {\n    msg.payload = { error: \"sensor_mac missing\" };\n    msg.statusCode = 400;\n    return msg;\n}\n\nmsg.topic = `\nSELECT * FROM measurements\nWHERE topic LIKE '%' || '${mac}' || '%'\nORDER BY timestamp DESC\nLIMIT 50;\n`;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 320,
+        "wires": [
+            [
+                "f756befba4e72d0d"
+            ]
+        ]
+    },
+    {
+        "id": "f756befba4e72d0d",
+        "type": "sqlite",
+        "z": "7ab793bdce786f28",
+        "mydb": "8badca3bd1764b93",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 770,
+        "y": 320,
+        "wires": [
+            [
+                "e03fe5d821072f2f"
+            ]
+        ]
+    },
+    {
+        "id": "e03fe5d821072f2f",
+        "type": "http response",
+        "z": "7ab793bdce786f28",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 990,
+        "y": 320,
+        "wires": []
     }
 ]
