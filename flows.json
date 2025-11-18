@@ -48,6 +48,14 @@
         "env": []
     },
     {
+        "id": "58b0b2179354f408",
+        "type": "tab",
+        "label": "rename_sensor",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7ba9a8144ff9121b",
         "type": "mqtt-broker",
         "name": "",
@@ -586,6 +594,71 @@
         "statusCode": "",
         "headers": {},
         "x": 990,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "d0a4ee17a7ada161",
+        "type": "http in",
+        "z": "58b0b2179354f408",
+        "name": "",
+        "url": "/rename_sensor",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 360,
+        "y": 320,
+        "wires": [
+            [
+                "1bbab7db30d98e01"
+            ]
+        ]
+    },
+    {
+        "id": "1bbab7db30d98e01",
+        "type": "function",
+        "z": "58b0b2179354f408",
+        "name": "function 6",
+        "func": "let mac = msg.payload.sensor_mac;\nlet newName = msg.payload.new_name;\n\nif (!mac || !newName) {\n    msg.payload = { success: false, error: \"missing data\" };\n    msg.statusCode = 400;\n    return msg;\n}\n\nmsg.topic = `\nUPDATE sensors\nSET name='${newName}'\nWHERE sensor_mac='${mac}';\n`;\n\nmsg.payload = { success: true };\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 320,
+        "wires": [
+            [
+                "4e5ece37ae6d56ee"
+            ]
+        ]
+    },
+    {
+        "id": "4e5ece37ae6d56ee",
+        "type": "sqlite",
+        "z": "58b0b2179354f408",
+        "mydb": "8badca3bd1764b93",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 790,
+        "y": 320,
+        "wires": [
+            [
+                "962041682d0c72bc"
+            ]
+        ]
+    },
+    {
+        "id": "962041682d0c72bc",
+        "type": "http response",
+        "z": "58b0b2179354f408",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1010,
         "y": 320,
         "wires": []
     }
