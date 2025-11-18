@@ -32,6 +32,14 @@
         "env": []
     },
     {
+        "id": "a83b94e49f96bc96",
+        "type": "tab",
+        "label": "Sensors",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7ba9a8144ff9121b",
         "type": "mqtt-broker",
         "name": "",
@@ -441,6 +449,71 @@
         "headers": {},
         "x": 970,
         "y": 160,
+        "wires": []
+    },
+    {
+        "id": "7cecab17f37911c2",
+        "type": "http in",
+        "z": "a83b94e49f96bc96",
+        "name": "",
+        "url": "/sensors",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 310,
+        "y": 140,
+        "wires": [
+            [
+                "4a3851bf0b7f4b15"
+            ]
+        ]
+    },
+    {
+        "id": "4a3851bf0b7f4b15",
+        "type": "function",
+        "z": "a83b94e49f96bc96",
+        "name": "function 4",
+        "func": "msg.topic = \"SELECT * FROM sensors\";\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 140,
+        "wires": [
+            [
+                "011334eeb166b964"
+            ]
+        ]
+    },
+    {
+        "id": "011334eeb166b964",
+        "type": "sqlite",
+        "z": "a83b94e49f96bc96",
+        "mydb": "8badca3bd1764b93",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 770,
+        "y": 140,
+        "wires": [
+            [
+                "36ec8a4538e71974"
+            ]
+        ]
+    },
+    {
+        "id": "36ec8a4538e71974",
+        "type": "http response",
+        "z": "a83b94e49f96bc96",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1050,
+        "y": 140,
         "wires": []
     }
 ]
