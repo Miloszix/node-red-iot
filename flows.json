@@ -24,6 +24,14 @@
         "env": []
     },
     {
+        "id": "ef4d562c7da92bbb",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7ba9a8144ff9121b",
         "type": "mqtt-broker",
         "name": "",
@@ -348,6 +356,91 @@
         "headers": {},
         "x": 1200,
         "y": 280,
+        "wires": []
+    },
+    {
+        "id": "bffa620f50520bd0",
+        "type": "http in",
+        "z": "ef4d562c7da92bbb",
+        "name": "Login API",
+        "url": "/login",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 260,
+        "y": 160,
+        "wires": [
+            [
+                "00712b5517585a46"
+            ]
+        ]
+    },
+    {
+        "id": "00712b5517585a46",
+        "type": "function",
+        "z": "ef4d562c7da92bbb",
+        "name": "check login",
+        "func": "let user = msg.payload.username;\nlet pass = msg.payload.password;\n\nmsg.topic = `\nSELECT * FROM users\nWHERE username='${user}' AND password='${pass}'\nLIMIT 1;\n`;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 160,
+        "wires": [
+            [
+                "b9d83ee5e2dc1fc5"
+            ]
+        ]
+    },
+    {
+        "id": "b9d83ee5e2dc1fc5",
+        "type": "sqlite",
+        "z": "ef4d562c7da92bbb",
+        "mydb": "8badca3bd1764b93",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "SQLite check user",
+        "x": 630,
+        "y": 160,
+        "wires": [
+            [
+                "c6685ba83fb1af4b"
+            ]
+        ]
+    },
+    {
+        "id": "c6685ba83fb1af4b",
+        "type": "function",
+        "z": "ef4d562c7da92bbb",
+        "name": "function 3",
+        "func": "if (msg.payload && msg.payload.length === 1) {\n    // użytkownik prawidłowy\n    msg.payload = {\n        success: true,\n        gateway_id: msg.payload[0].gateway_id\n    };\n} else {\n    msg.payload = { success: false };\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 160,
+        "wires": [
+            [
+                "0237985986906306"
+            ]
+        ]
+    },
+    {
+        "id": "0237985986906306",
+        "type": "http response",
+        "z": "ef4d562c7da92bbb",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 970,
+        "y": 160,
         "wires": []
     }
 ]
